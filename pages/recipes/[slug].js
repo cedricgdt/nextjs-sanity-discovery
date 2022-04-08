@@ -1,6 +1,5 @@
 import { sanityClient, urlFor, usePreviewSubscription, PortableText } from "../../lib/sanity";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 const recipeQuery = `*[_type == "recipe" && slug.current == $slug][0]{
   _id,
@@ -21,11 +20,8 @@ const recipeQuery = `*[_type == "recipe" && slug.current == $slug][0]{
 }`;
 
 export default function OneRecipe({ data, preview }) {
-  const router = useRouter()
+  // if (!data) return <div>Loading...</div>;
 
-  if (router.isFallback) {
-    return <div>Loading....</div>
-  }
   const {data: recipe } = usePreviewSubscription(recipeQuery, {
     params: {slug: data.recipe?.slug?.current},
     initialData: data,
